@@ -8,7 +8,8 @@ eventsRouter
     .route('/api/events')
     .get((req, res, next) => {
         const knexInstance = req.app.get('db');
-        eventsService.getAllEvents(knexInstance, req.query)
+        //eventsService.getAllEvents(knexInstance, req.query)
+        knexInstance.select('*').from('nitelyfe_things')
             .then(events => {
                 res.json(events);
             })
