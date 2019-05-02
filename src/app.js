@@ -31,16 +31,17 @@ app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
 
+app.use(eventsRouter);
 
-app.get('/api/events', (req, res) => {
-    res.json([
-        {
-            name: 'A Cool Bar',
-            deal: 'Half off drinks',
-            day: 'Tuesday'
-        }
-    ])
-})
+// app.get('/api/events', (req, res) => {
+//     res.json([
+//         {
+//             name: 'A Cool Bar',
+//             deal: 'Half off drinks',
+//             day: 'Tuesday'
+//         }
+//     ])
+// })
 
 app.use(function errorHandler(error, req, res, next) {
     let response
