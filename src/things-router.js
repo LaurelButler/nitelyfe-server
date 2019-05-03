@@ -3,6 +3,7 @@
 const express = require('express');
 const eventsRouter = express.Router();
 const bodyParser = express.json();
+const NitelyfeService = require('./things-service');
 
 eventsRouter
     .route('/api/events')
@@ -14,36 +15,27 @@ eventsRouter
                 res.json(events);
             })
             .catch(next);
+    })
+
+
+    .post(bodyParser, (req, res, next) => {
+        const { description, location, day_of_week, title } = req.body;
+        const newEvent = { description, location, day_of_week, title };
+
+        NitelyfeService.insertEvent(
+            req.app.get('db'),
+            newEvent
+        )
+            .then(event => {
+                res
+                    .status(201)
+                    .location(req.originalUrl + `/${event.id}`)
+                    .json(event);
+            })
+            .catch(next);
+
     });
 
-    module.exports = eventsRouter;
-
-    // .post(bodyParser, (req, res, next) => {
-    //     const { id, note_name, modified, folder_id, content } = req.body;
-    //     const newNote = { id, note_name, modified, folder_id, content };
-
-    //     for (const [key, value] of Object.entries(newNote)) {
-
-    //         if ((key === 'note_name' || key === 'folder_id') && (value === null || value === undefined)) {
-    //             return res.status(400).json({
-    //                 error: { message: `Missing '${key}' in request body` }
-    //             });
-    //         }
-
-    //     }
-
-    //     notefulService.insertNote(
-    //         req.app.get('db'),
-    //         newNote
-    //     )
-    //         .then(note => {
-    //             res
-    //                 .status(201)
-    //                 .location(req.originalUrl + `/${note.id}`)
-    //                 .json(note);
-    //         })
-    //         .catch(next);
-
-    // });
+module.exports = eventsRouter;
 
     
