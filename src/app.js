@@ -20,6 +20,7 @@ app.use(eventsRouter);
 
 
 app.use(function errorHandler(error, req, res, next) {
+    console.log(error);
     let response
     if (NODE_ENV === 'production') {
         response = { error: { message: 'server error' } }
