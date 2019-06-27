@@ -34,6 +34,18 @@ eventsRouter
             })
             .catch(next);
 
+    })
+    
+    eventsRouter
+    .route('/api/events/:id')
+    .delete((req, res, next) => {
+        const knexInstance = req.app.get('db');
+        NitelyfeService.deleteEvent(knexInstance, req.params.id) 
+            .then(rowsAffected => {
+                res.status(204).end()
+            }
+            )
+            .catch(next);
     });
 
 module.exports = eventsRouter;
