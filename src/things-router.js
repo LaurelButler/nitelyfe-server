@@ -42,6 +42,7 @@ eventsRouter
         const knexInstance = req.app.get('db');
         NitelyfeService.deleteEvent(knexInstance, req.params.id) 
             .then(rowsAffected => {
+                console.log(rowsAffected);
                 res.status(204).end()
             }
             )
